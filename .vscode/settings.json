@@ -1,0 +1,10 @@
+{
+    "prettier.bracketSpacing": true,  
+    "typescript.format.insertSpaceBeforeFunctionParenthesis": false,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+    // "eslint.workingDirectories": [
+    //     "src"
+    // ]
+}
