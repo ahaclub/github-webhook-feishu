@@ -56,75 +56,68 @@ app.listen(9000, () => {
 });
 
 app.get('/feishu', (req, res) => {
-  var url, notificationTypeList, githubEventType, content, eventName, eventBody, eventUrl, senderName, body, body, options, result, err_1;
-  var _a, _b, _c, _d, _e;
-  return __generator(this, function (_f) {
-    switch (_f.label) {
-      case 0:
-        // const baseUrl = "https://open.feishu.cn/open-apis/bot/v2/hook/7ec91c58-262e-48e4-8c1f-a23a1e2ac342"
-        console.log(req.query);
-        url = (_a = req.query.url) !== null && _a !== void 0 ? _a : "";
-        if (url == "") {
-          res.status(400).send({code: "can't find webhook url in query"});
-          return [2 /*return*/, 1];
-        }
-        notificationTypeList = ["pull_request", "release"];
-        githubEventType = (_c = (_b = req.headers["x-github-event"]) === null || _b === void 0 ? void 0 : _b.toString()) !== null && _c !== void 0 ? _c : " ";
-        content = req.body;
-        eventName = "";
-        eventBody = "";
-        eventUrl = content.repository != null ? (_d = content.repository.html_url) !== null && _d !== void 0 ? _d : "" : "";
-        senderName = content.sender != null ? (_e = content.sender.login) !== null && _e !== void 0 ? _e : "Github" : "Github";
-        switch (githubEventType) {
-          case "pull_request": {
-            body = content;
-            eventName = [body.sender.login, "just", body.action, "a pull request: ", body.pull_request.head.label, "->", body.pull_request.base.label].join(" ");
-            eventBody = body.pull_request.body;
-            eventUrl = body.pull_request.html_url;
-            break;
-          }
-          case "release": {
-            body = content;
-            eventName = [body.sender.login, "just", body.action, "a release: ", body.releas.tag_name].join(" ");
-            eventBody = "版本更新：" + body.releas.tag_name;
-            eventUrl = body.release.html_url;
-            break;
-          }
-          default: {
-            eventName = "暂不支持该消息类型";
-            console.log("暂不支持该消息类型");
-            break;
-          }
-        }
-        options = {
-          method: "POST",
-          uri: url.toString(),
-          body: getMessageBody(eventName, eventBody, eventUrl, senderName),
-          json: true
-        };
-        console.log(options);
-        _f.label = 1;
-      case 1:
-        _f.trys.push([1, 5, , 6]);
-        if (!notificationTypeList.includes(githubEventType)) return [3 /*break*/, 3];
-        return [4 /*yield*/, rp(options)];
-      case 2:
-        result = _f.sent();
-        res.status(200).send(result);
-        return [2 /*return*/, result];
-      case 3:
-        res.status(200).send({result: "Github EventType is unsupport"});
-        _f.label = 4;
-      case 4: return [3 /*break*/, 6];
-      case 5:
-        err_1 = _f.sent();
-        console.log("=============error=============");
-        console.log(err_1);
-        return [2 /*return*/, {code: "some error happened, please see it in firebase console log"}];
-      case 6: return [2 /*return*/];
+  // const baseUrl = "https://open.feishu.cn/open-apis/bot/v2/hook/7ec91c58-262e-48e4-8c1f-a23a1e2ac342"
+  console.log(req.query)
+  const url = req.query.url ?? ""
+  if (url == "") {
+    res.status(400).send({code: "can't find webhook url in query"})
+    return 1
+  }
+  const notificationTypeList = ["pull_request", "release"]
+
+  const githubEventType = req.headers["x-github-event"]?.toString() ?? " "
+  const content = req.body
+  let eventName = ""
+  let eventBody = ""
+  let eventUrl = content.repository != null ? content.repository.html_url ?? "" : ""
+  const senderName = content.sender != null ? content.sender.login ?? "Github" : "Github"
+
+  switch (githubEventType) {
+    case "pull_request": {
+      const body = content
+      eventName = [body.sender.login, "just", body.action, "a PR: ", body.pull_request.head.label, "->", body.pull_request.base.label].join(" ")
+      eventBody = body.pull_request.body
+      eventUrl = body.pull_request.html_url
+      break
     }
-  });
-});
+    case "release": {
+      const body = content
+      eventName = [body.sender.login, "just", body.action, "a release: ", body.releas.tag_name].join(" ")
+      eventBody = "版本更新：" + body.releas.tag_name
+      eventUrl = body.release.html_url
+      break
+    }
+    default: {
+      eventName = "暂不支持该消息类型"
+      console.log("暂不支持该消息类型")
+      break
+    }
+  }
+
+  const options = {
+    method: "POST",
+    uri: url.toString(),
+    body: getMessageBody(eventName, eventBody, eventUrl, senderName),
+    json: true,
+
+  }
+
+
+  console.log(options)
+  try {
+    if (notificationTypeList.includes(githubEventType)) {
+      const result = await rp(options)
+      res.status(200).send(result)
+      return result
+    } else {
+      res.status(200).send({result: "Github EventType is unsupport"})
+    }
+  } catch (err) {
+    console.log("=============error=============")
+    console.log(err)
+    return {code: "some error happened, please see it in firebase console log"}
+  }
+})
 
 var getMessageBody = function (eventName, eventBody, eventUrl, senderName) {
   var body = {
