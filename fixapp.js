@@ -7,23 +7,30 @@ exports.forwardMessageFeishu = function (req, res) {
   // function forwardMessageFeishu(req, res) {
   var url = req.query["url"]
   if (url == "") {
-    res.status(400).send({code: "can't find webhook url in query"})
+    res.status(400).send({ code: "Not find a webhook url in the query" })
     return 1
   }
   var notificationTypeList = ["pull_request", "release"]
+  var actionTypeList = ["opened", "closed", "published"]
 
   var githubEventType = req.headers["x-github-event"]
   var payload = JSON.parse(req.body["payload"])
   if (payload == null) {
     console.log(req)
-    res.status(400).send({code: "can't find body in request"})
+    res.status(400).send({ code: "Not find a body in the request" })
     // res.status(400).send(req.body)
+    return 1
+  }
+  console.log(payload.action)
+  console.log(actionTypeList.includes(payload.action))
+  if (!(actionTypeList.includes(payload.action))) {
+    console.log(req)
+    res.status(400).send({ code: "The Action-Type is not in notification list" })
     return 1
   }
   let eventName = ""
   let eventBody = ""
-  console.log(payload.pull_request)
-  console.log(payload["sender"])
+  console.log(payload.sender.login)
 
   let eventUrl = payload.repository != null ? payload.repository.html_url != null ? payload.repository.html_url : "" : ""
   const senderName = payload.sender != null ? payload.sender.login != null ? payload.sender.login : "Github" : "Github"
@@ -38,8 +45,9 @@ exports.forwardMessageFeishu = function (req, res) {
     }
     case "release": {
       const body = payload
-      eventName = [body.sender.login, "just", body.action, "a release: ", body.releas.tag_name].join(" ")
-      eventBody = "版本更新：" + body.releas.tag_name
+      console.log(payload.release)
+      eventName = [body.sender.login, "just", body.action, "a release: ", body.release.tag_name].join(" ")
+      eventBody = "版本更新：" + body.release.tag_name
       eventUrl = body.release.html_url
       break
     }
@@ -55,8 +63,8 @@ exports.forwardMessageFeishu = function (req, res) {
     uri: url.toString(),
     body: getMessageBody(eventName, eventBody, eventUrl, senderName),
     json: true,
-
   }
+
   console.log(options)
   try {
     if (notificationTypeList.includes(githubEventType)) {
@@ -64,12 +72,12 @@ exports.forwardMessageFeishu = function (req, res) {
       res.status(200).send(result)
       return result
     } else {
-      res.status(200).send({result: "Github EventType is unsupport"})
+      res.status(200).send({ result: "Github EventType is unsupport" })
     }
   } catch (err) {
     console.log("=============error=============")
     console.log(err)
-    return {code: "some error happened, please see it in firebase console log"}
+    return { code: "some error happened, please see it in firebase console log" }
   }
 }
 
