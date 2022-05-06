@@ -13,7 +13,7 @@ jobs:
       with:
         node-version: '10.x'
     - name: npm install
-      run: npm install
+      run: npm install && npm install -g serverless
     - name: login with key
       run: serverless credentials set --secretId ${{ secrets.TENCENTCLOUD_SECRET_ID }} --secretKey ${{ secrets.TENCENTCLOUD_SECRET_KEY }}
     - name: deploy
