@@ -7,6 +7,10 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js 14
@@ -21,16 +25,3 @@ jobs:
       run: serverless credentials set --secretId ${{ secrets.TENCENTCLOUD_SECRET_ID }} --secretKey ${{ secrets.TENCENTCLOUD_SECRET_KEY }}
     - name: deploy
       run: sls deploy
-#     - name: pip --version
-#       run: pip --version
-#     - name: install SCF CLI
-#       run: sudo pip install scf
-#     - name: scf configure
-#       env: 
-#         APPID: 1252618971
-#         REGION: ap-guangzhou
-#         SECRET_ID: ${{ secrets.TENCENTCLOUD_SECRET_ID }}
-#         SECRET_KEY: ${{ secrets.TENCENTCLOUD_SECRET_KEY }}
-#       run: scf configure set --appid $APPID --region $REGION --secret-id $SECRET_ID --secret-key $SECRET_KEY
-#     - name: scf deploy
-#       run: scf deploy -t ./hello_world/template.yaml -f
