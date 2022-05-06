@@ -1,5 +1,3 @@
-# https://cloud.tencent.com/developer/article/1510289
-# https://github.com/Juliiii/test-scf-github-actions/blob/master/.github/workflows/main.yml
 name: deploy
 
 on: [push]
@@ -13,14 +11,19 @@ jobs:
         working-directory: ./
     steps:
     - uses: actions/checkout@v2
+    - run: mkdir -p /home/runner/.npm
+      continue-on-error: true
+
     - name: Use Node.js 14
       uses: actions/setup-node@v2
       with:
         node-version: 14
         cache: 'npm'
-        cache-dependency-path: functions/package-lock.json
+        cache-dependency-path: ./package-lock.json
+
     - name: npm install
-      run: npm install && npm install -g serverless
+      run: npm install
+      run: npm install -g serverless
     - name: login with key
       run: serverless credentials set --secretId ${{ secrets.TENCENTCLOUD_SECRET_ID }} --secretKey ${{ secrets.TENCENTCLOUD_SECRET_KEY }}
     - name: deploy
