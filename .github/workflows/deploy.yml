@@ -22,7 +22,7 @@ jobs:
         usingCos: "true"
         secretId: ${{ secrets.TENCENTCLOUD_SECRET_ID }}
         secretKey: ${{ secrets.TENCENTCLOUD_SECRET_KEY }}
-        args: deploy -t ./hello_world/template.yaml -f
+        args: deploy -t ./serverless.yml -f
 #     - name: pip --version
 #       run: pip --version
 #     - name: install SCF CLI
