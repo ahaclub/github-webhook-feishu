@@ -23,6 +23,7 @@ jobs:
 
     - name: npm install
       run: npm install
+    - name: npm install serverless
       run: npm install -g serverless
     - name: login with key
       run: serverless credentials set --secretId ${{ secrets.TENCENTCLOUD_SECRET_ID }} --secretKey ${{ secrets.TENCENTCLOUD_SECRET_KEY }}
