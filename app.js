@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const fs = require('fs');
-const feishu = require('./fixapp');
+const feishu = require('./feishuWebhook');
 const app = express();
 // https://stackabuse.com/get-http-post-body-in-express-js/
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -65,5 +65,5 @@ app.post('/feishu', (req, res) => {
 
 
 app.get('/feishu', (req, res) => {
-  res.status(200).send({tip: "u should use post request"});
+  res.status(200).send({ tip: "u should use post request" });
 });

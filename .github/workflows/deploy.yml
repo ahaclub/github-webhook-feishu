@@ -1,0 +1,38 @@
+# https://cloud.tencent.com/developer/article/1510289
+# https://github.com/Juliiii/test-scf-github-actions/blob/master/.github/workflows/main.yml
+name: deploy
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
+    - name: npm install
+      run: npm install
+    - name: deploy
+      uses: Juliiii/action-scf@master
+      with:
+        appId: ${{ secrets.TENCENTCLOUD_APP_ID }}
+        region: ap-guangzhou
+        usingCos: "true"
+        secretId: ${{ secrets.TENCENTCLOUD_SECRET_ID }}
+        secretKey: ${{ secrets.TENCENTCLOUD_SECRET_KEY }}
+        args: deploy -t ./hello_world/template.yaml -f
+#     - name: pip --version
+#       run: pip --version
+#     - name: install SCF CLI
+#       run: sudo pip install scf
+#     - name: scf configure
+#       env: 
+#         APPID: 1252618971
+#         REGION: ap-guangzhou
+#         SECRET_ID: ${{ secrets.TENCENTCLOUD_SECRET_ID }}
+#         SECRET_KEY: ${{ secrets.TENCENTCLOUD_SECRET_KEY }}
+#       run: scf configure set --appid $APPID --region $REGION --secret-id $SECRET_ID --secret-key $SECRET_KEY
+#     - name: scf deploy
+#       run: scf deploy -t ./hello_world/template.yaml -f
