@@ -40,7 +40,7 @@ app.get('/user/:id', (req, res) => {
 });
 
 app.get('/404', (req, res) => {
-  res.status(404).send('Not found');
+  res.status(404).send('404 not found');
 });
 
 app.get('/500', (req, res) => {
@@ -65,5 +65,5 @@ app.post('/feishu', (req, res) => {
 
 
 app.get('/feishu', (req, res) => {
-  res.status(200).send({ tip: "u should use post request" });
+  res.status(200).send({ tip: "You should use the post request" });
 });
