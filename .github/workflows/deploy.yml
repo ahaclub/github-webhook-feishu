@@ -14,15 +14,10 @@ jobs:
         node-version: '10.x'
     - name: npm install
       run: npm install
+    - name: login with key
+      run: serverless credentials set --secretId ${{ secrets.TENCENTCLOUD_SECRET_ID }} --secretKey ${{ secrets.TENCENTCLOUD_SECRET_KEY }}
     - name: deploy
-      uses: Juliiii/action-scf@master
-      with:
-        appId: ${{ secrets.TENCENTCLOUD_APP_ID }}
-        region: ap-guangzhou
-        usingCos: "true"
-        secretId: ${{ secrets.TENCENTCLOUD_SECRET_ID }}
-        secretKey: ${{ secrets.TENCENTCLOUD_SECRET_KEY }}
-        args: deploy -t ./serverless.yml -f
+      run: sls deploy
 #     - name: pip --version
 #       run: pip --version
 #     - name: install SCF CLI
