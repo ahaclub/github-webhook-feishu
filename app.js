@@ -65,5 +65,5 @@ app.post('/feishu', (req, res) => {
 
 
 app.get('/feishu', (req, res) => {
-  res.status(200).send({ tip: "You should use the post request" });
+  res.status(200).send({ tip: "You should use the post request, see doc: https://feishu.ahaclub.net/release" });
 });
