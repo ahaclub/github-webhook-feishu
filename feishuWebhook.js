@@ -1,4 +1,4 @@
-const rp = require('request');
+const rp = require("request")
 
 
 // forwardMessageFeishu()
@@ -128,5 +128,5 @@ function getMessageBody(eventName, eventBody, eventUrl, senderName) {
       ],
     },
   }
-  return body;
-};
+  return body
+}
