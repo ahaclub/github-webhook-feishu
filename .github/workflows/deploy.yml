@@ -28,6 +28,8 @@ jobs:
       run: npm install
     - name: npm install serverless
       run: npm install -g serverless
+    - name: npm install -g @serverless/components
+      run: npm install -g @serverless/components
     - name: login with key
       run: serverless credentials set --secretId ${{ secrets.TENCENTCLOUD_SECRET_ID }} --secretKey ${{ secrets.TENCENTCLOUD_SECRET_KEY }}
     - name: deploy
