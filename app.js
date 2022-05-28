@@ -2,12 +2,16 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const fs = require('fs');
-const feishu = require('./feishuWebhook');
+const feishu = require('./fixapp');
 const app = express();
 // https://stackabuse.com/get-http-post-body-in-express-js/
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get(`/`, (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.get(`/release`, (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
@@ -40,7 +44,7 @@ app.get('/user/:id', (req, res) => {
 });
 
 app.get('/404', (req, res) => {
-  res.status(404).send('404 not found');
+  res.status(404).send('Not found');
 });
 
 app.get('/500', (req, res) => {
@@ -63,7 +67,15 @@ app.post('/feishu', (req, res) => {
   feishu.forwardMessageFeishu(req, res)
 });
 
+app.post(`/release/feishu`, (req, res) => {
+  feishu.forwardMessageFeishu(req, res)
+});
+
 
 app.get('/feishu', (req, res) => {
-  res.status(200).send({ tip: "You should use the post request, see doc: https://githubbot.ahaclub.net/" });
+  res.status(200).send({ tip: "You should use the post request, see doc: https://feishu.ahaclub.net" });
+});
+
+app.get('/release/feishu', (req, res) => {
+  res.status(200).send({ tip: "You should use the post request, see doc: https://feishu.ahaclub.net" });
 });
