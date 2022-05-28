@@ -35,3 +35,5 @@ jobs:
       run: export SLS_GEO_LOCATION=cn sls deploy
     - name: deploy
       run: sls deploy
+    - name: deploy2(maybe the first is fail)
+      run: sls deploy
