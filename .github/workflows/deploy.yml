@@ -21,6 +21,8 @@ jobs:
         cache: 'npm'
         cache-dependency-path: ./package-lock.json
 
+    - name: export env
+      run: export SERVERLESS_PLATFORM_VENDOR=tencent sls deploy
     - name: npm install
       run: npm install
     - name: npm install serverless
