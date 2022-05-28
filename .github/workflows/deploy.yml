@@ -21,9 +21,7 @@ jobs:
         cache: 'npm'
         cache-dependency-path: ./package-lock.json
   
-    # setting https://github.com/serverless/serverless-tencent/issues/142
-    - name: export env 
-      run: export SERVERLESS_PLATFORM_VENDOR=tencent sls deploy
+    
     - name: npm install
       run: npm install
     - name: npm install serverless
@@ -32,5 +30,8 @@ jobs:
       run: npm install -g @serverless/components
     - name: login with key
       run: serverless credentials set --secretId ${{ secrets.TENCENTCLOUD_SECRET_ID }} --secretKey ${{ secrets.TENCENTCLOUD_SECRET_KEY }}
+    # setting https://github.com/serverless/serverless-tencent/issues/142
+    - name: export env 
+      run: export SERVERLESS_PLATFORM_VENDOR=tencent sls deploy
     - name: deploy
       run: sls deploy
