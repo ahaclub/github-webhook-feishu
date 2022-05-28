@@ -73,9 +73,9 @@ app.post(`/release/feishu`, (req, res) => {
 
 
 app.get('/feishu', (req, res) => {
-  res.status(200).send({ tip: "You should use the post request, see doc: https://feishu.ahaclub.net" });
+  res.status(200).send({ tip: "You should use the post request, see doc: https://githubbot.ahaclub.net" });
 });
 
 app.get('/release/feishu', (req, res) => {
-  res.status(200).send({ tip: "You should use the post request, see doc: https://feishu.ahaclub.net" });
+  res.status(200).send({ tip: "You should use the post request, see doc: https://githubbot.ahaclub.net" });
 });
