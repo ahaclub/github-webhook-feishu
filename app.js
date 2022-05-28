@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const fs = require('fs');
-const feishu = require('./fixapp');
+const feishu = require('./feishuWebhook');
 const app = express();
 // https://stackabuse.com/get-http-post-body-in-express-js/
 app.use(bodyParser.urlencoded({ extended: true }));
