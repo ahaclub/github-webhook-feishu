@@ -1,4 +1,5 @@
-# 此 yml 仅做参考，请按照您的函数实际信息进行配置
+# 此 yml 仅做参考，配置文档
+# https://github.com/serverless-components/tencent-scf/blob/master/docs/configure.md
 
 component: scf
 name: github-bot
@@ -17,7 +18,7 @@ inputs:
     - apigw: 
         parameters: 
           serviceName: serverless
-          serviceId: service-99ftcf9m
+          serviceId: service-q4bs94j2
           protocols: 
             - http
             - https
