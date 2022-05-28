@@ -25,13 +25,13 @@ jobs:
     - name: npm install
       run: npm install
     - name: npm install serverless
-      run: npm install -g serverless
-    - name: npm install -g @serverless/components
-      run: npm install -g @serverless/components
+      run: npm i -g serverless serverless-tencent
     - name: login with key
       run: serverless credentials set --secretId ${{ secrets.TENCENTCLOUD_SECRET_ID }} --secretKey ${{ secrets.TENCENTCLOUD_SECRET_KEY }}
     # setting https://github.com/serverless/serverless-tencent/issues/142
     - name: export env 
       run: export SERVERLESS_PLATFORM_VENDOR=tencent sls deploy
+    - name: export env2
+      run: export SLS_GEO_LOCATION=cn sls deploy
     - name: deploy
       run: sls deploy
