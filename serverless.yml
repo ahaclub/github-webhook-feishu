@@ -10,13 +10,14 @@ inputs:
   # 指定 SCF 类型为 Web 类型
   type: web
   name: githubFeishuWebhook # 填入您的函数名称
-  serviceId: service-q4bs94j2
   region: ap-guangzhou
   runtime: Nodejs12.16
   memorySize: 512 # 内存大小，为保证性能，web 函数请配置 512 MB 及以上
   events: 
     - apigw: 
         parameters: 
+          serviceName: serverless
+          serviceId: service-99ftcf9m
           protocols: 
             - http
             - https
