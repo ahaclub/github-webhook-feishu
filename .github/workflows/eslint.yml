@@ -1,4 +1,4 @@
-name: deploy
+name: eslint-fix
 
 on:
   pull_request:
