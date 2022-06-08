@@ -59,11 +59,6 @@ app.use(function (err, req, res, next) {
   res.status(500).send("Internal Serverless Error")
 })
 
-// Web 类型云函数，只能监听 9000 端口
-app.listen(9000, () => {
-  console.log("Server start on http://localhost:9000")
-})
-
 
 app.post("/feishu", (req, res) => {
   feishu.forwardMessageFeishu(req, res)
@@ -80,4 +75,9 @@ app.get("/feishu", (req, res) => {
 
 app.get("/release/feishu", (req, res) => {
   res.status(200).send({ tip: "You should use the post request, see doc: https://githubbot.ahaclub.net" })
+})
+
+// Web 类型云函数，只能监听 9000 端口
+app.listen(9000, () => {
+  console.log("Server start on http://localhost:9000")
 })
